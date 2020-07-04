@@ -61,11 +61,6 @@ class DataBaseHelper(context: Context) :
         onCreate(db)
     }
 
-    fun createDays() {
-
-    }
-
-
     fun getSmallList(): ArrayList<Day> {
         var smallList = ArrayList<Day>()
         val db = readableDatabase
@@ -178,7 +173,7 @@ class DataBaseHelper(context: Context) :
         return bigList[0]
     }
 
-    private fun addSmall(
+    fun addSmall(
         day: Int,
         month: Int,
         year: Int,
@@ -199,7 +194,7 @@ class DataBaseHelper(context: Context) :
         return (Integer.parseInt("$success") != -1)
     }
 
-    private fun addBig(
+    fun addBig(
         day: Int,
         month: Int,
         year: Int,
