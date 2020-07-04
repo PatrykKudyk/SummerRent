@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.partos.summerrent.R
+import com.partos.summerrent.db.DataBaseHelper
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -83,6 +84,11 @@ class PastFragment : Fragment() {
     }
 
     private fun initFragment() {
-
+        val db = DataBaseHelper(rootView.context)
+        val check = db.getSmallMonth(6, 2020)
+        if (check.size == 0) {
+            db.initDatabase()
+        }
     }
+
 }

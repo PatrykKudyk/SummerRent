@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
+import com.partos.summerrent.MyApp
 import com.partos.summerrent.models.Date
 import com.partos.summerrent.models.Day
 
@@ -29,7 +30,6 @@ object BasicCommand {
                 "${TableInfo.TABLE_COLUMN_DAY} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_MONTH} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_YEAR} INTEGER NOT NULL," +
-                "${TableInfo.TABLE_COLUMN_DAY_OF_WEEK} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_STATUS} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_NOTE} TEXT NOT NULL)"
 
@@ -39,7 +39,6 @@ object BasicCommand {
                 "${TableInfo.TABLE_COLUMN_DAY} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_MONTH} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_YEAR} INTEGER NOT NULL," +
-                "${TableInfo.TABLE_COLUMN_DAY_OF_WEEK} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_STATUS} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_NOTE} TEXT NOT NULL)"
 
@@ -61,6 +60,33 @@ class DataBaseHelper(context: Context) :
         onCreate(db)
     }
 
+    fun initDatabase() {
+        for (year in 2020..2022) {
+            for (month in 0..12) {
+                for (day in 0..31) {
+                    if (month == 2) {
+                        if (year == 2020 && day <= 29) {
+                            addSmall(day, month, year, 0, "")
+                            addBig(day, month, year, 0, "")
+                        } else if (year == 2021 && day <= 28) {
+                            addSmall(day, month, year, 0, "")
+                            addBig(day, month, year, 0, "")
+                        }
+                    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+                        if (day <= 30){
+                            addSmall(day, month, year, 0, "")
+                            addBig(day, month, year, 0, "")
+                        }
+                    } else {
+                        addSmall(day, month, year, 0, "")
+                        addBig(day, month, year, 0, "")
+                    }
+                }
+            }
+        }
+    }
+
+
     fun getSmallList(): ArrayList<Day> {
         var smallList = ArrayList<Day>()
         val db = readableDatabase
@@ -73,8 +99,7 @@ class DataBaseHelper(context: Context) :
                     Date(
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
                     ),
                     result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
                     result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
@@ -99,8 +124,7 @@ class DataBaseHelper(context: Context) :
                     Date(
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
                     ),
                     result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
                     result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
@@ -108,6 +132,62 @@ class DataBaseHelper(context: Context) :
                 bigList.add(day)
             } while (result.moveToNext())
         }
+        result.close()
+        db.close()
+        return bigList
+    }
+
+    fun getSmallMonth(month: Int, year: Int): ArrayList<Day> {
+        var smallList = ArrayList<Day>()
+        val db = readableDatabase
+        val selectQuery =
+            "Select * from ${TableInfo.TABLE_NAME_SMALL} where ${TableInfo.TABLE_COLUMN_MONTH} = " + month.toString() +
+                    " and ${TableInfo.TABLE_COLUMN_YEAR} = " + year.toString()
+        val result = db.rawQuery(selectQuery, null)
+        if (result.moveToFirst()) {
+            do {
+                var smallDay = Day(
+                    result.getInt(result.getColumnIndex(BaseColumns._ID)).toLong(),
+                    Date(
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
+                    ),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
+                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
+                )
+                smallList.add(smallDay)
+            } while (result.moveToNext())
+        }
+
+        result.close()
+        db.close()
+        return smallList
+    }
+
+    fun getBigMonth(month: Int, year: Int): ArrayList<Day> {
+        var bigList = ArrayList<Day>()
+        val db = readableDatabase
+        val selectQuery =
+            "Select * from ${TableInfo.TABLE_NAME_BIG} where ${TableInfo.TABLE_COLUMN_MONTH} = " + month.toString() +
+                    " and ${TableInfo.TABLE_COLUMN_YEAR} = " + year.toString()
+        val result = db.rawQuery(selectQuery, null)
+        if (result.moveToFirst()) {
+            do {
+                var bigDay = Day(
+                    result.getInt(result.getColumnIndex(BaseColumns._ID)).toLong(),
+                    Date(
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
+                    ),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
+                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
+                )
+                bigList.add(bigDay)
+            } while (result.moveToNext())
+        }
+
         result.close()
         db.close()
         return bigList
@@ -128,8 +208,7 @@ class DataBaseHelper(context: Context) :
                     Date(
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
                     ),
                     result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
                     result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
@@ -158,8 +237,7 @@ class DataBaseHelper(context: Context) :
                     Date(
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
                     ),
                     result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
                     result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
@@ -177,7 +255,6 @@ class DataBaseHelper(context: Context) :
         day: Int,
         month: Int,
         year: Int,
-        dayOfWeek: Int,
         status: Int,
         note: String
     ): Boolean {
@@ -186,7 +263,6 @@ class DataBaseHelper(context: Context) :
         values.put(TableInfo.TABLE_COLUMN_DAY, day)
         values.put(TableInfo.TABLE_COLUMN_MONTH, month)
         values.put(TableInfo.TABLE_COLUMN_YEAR, year)
-        values.put(TableInfo.TABLE_COLUMN_DAY_OF_WEEK, dayOfWeek)
         values.put(TableInfo.TABLE_COLUMN_STATUS, status)
         values.put(TableInfo.TABLE_COLUMN_NOTE, note)
         val success = db.insert(TableInfo.TABLE_NAME_SMALL, null, values)
@@ -198,7 +274,6 @@ class DataBaseHelper(context: Context) :
         day: Int,
         month: Int,
         year: Int,
-        dayOfWeek: Int,
         status: Int,
         note: String
     ): Boolean {
@@ -207,7 +282,6 @@ class DataBaseHelper(context: Context) :
         values.put(TableInfo.TABLE_COLUMN_DAY, day)
         values.put(TableInfo.TABLE_COLUMN_MONTH, month)
         values.put(TableInfo.TABLE_COLUMN_YEAR, year)
-        values.put(TableInfo.TABLE_COLUMN_DAY_OF_WEEK, dayOfWeek)
         values.put(TableInfo.TABLE_COLUMN_STATUS, status)
         values.put(TableInfo.TABLE_COLUMN_NOTE, note)
         val success = db.insert(TableInfo.TABLE_NAME_BIG, null, values)
@@ -221,7 +295,6 @@ class DataBaseHelper(context: Context) :
         values.put(TableInfo.TABLE_COLUMN_DAY, day.date.day)
         values.put(TableInfo.TABLE_COLUMN_MONTH, day.date.month)
         values.put(TableInfo.TABLE_COLUMN_YEAR, day.date.year)
-        values.put(TableInfo.TABLE_COLUMN_DAY_OF_WEEK, day.date.dayOfWeek)
         values.put(TableInfo.TABLE_COLUMN_STATUS, day.status)
         values.put(TableInfo.TABLE_COLUMN_NOTE, day.note)
         val success = db.update(
@@ -237,7 +310,6 @@ class DataBaseHelper(context: Context) :
         values.put(TableInfo.TABLE_COLUMN_DAY, day.date.day)
         values.put(TableInfo.TABLE_COLUMN_MONTH, day.date.month)
         values.put(TableInfo.TABLE_COLUMN_YEAR, day.date.year)
-        values.put(TableInfo.TABLE_COLUMN_DAY_OF_WEEK, day.date.dayOfWeek)
         values.put(TableInfo.TABLE_COLUMN_STATUS, day.status)
         values.put(TableInfo.TABLE_COLUMN_NOTE, day.note)
         val success = db.update(
