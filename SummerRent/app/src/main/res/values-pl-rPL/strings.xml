@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Summer Rent</string>
+    <string name="app_name">Wynajem domków</string>
     <string name="january">Styczeń</string>
     <string name="february">Luty</string>
     <string name="march">Marzec</string>
@@ -22,4 +22,6 @@
     <string name="sunday">Ndz</string>
     <string name="house_small">\t40/5</string>
     <string name="house_big">\t47</string>
+    <string name="past_rents">Przeszłe</string>
+    <string name="current_rents">Aktualne</string>
 </resources>

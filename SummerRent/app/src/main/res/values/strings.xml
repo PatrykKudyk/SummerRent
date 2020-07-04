@@ -21,4 +21,6 @@
     <string name="sunday">Sun</string>
     <string name="house_small">\t\t40/5</string>
     <string name="house_big">\t\t47</string>
+    <string name="past_rents">Past rents</string>
+    <string name="current_rents">Current rents</string>
 </resources>
