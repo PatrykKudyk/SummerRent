@@ -57,8 +57,6 @@ class DataBaseHelper(context: Context) :
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(BasicCommand.SQL_CREATE_TABLE_SMALL)
         db?.execSQL(BasicCommand.SQL_CREATE_TABLE_BIG)
-
-        initDatabase()
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {

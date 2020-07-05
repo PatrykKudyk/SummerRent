@@ -20,14 +20,26 @@ class CalendarHelper(val context: Context) {
             val currentYear = Calendar.getInstance().get(Calendar.YEAR)
             if (currentYear < 2024) {
                 for (year in currentYear..(currentYear + 2)) {
-                    for (month in 1..12) {
-                        monthsList.add(db.getSmallMonth(month, year))
+                    if(year == currentYear) {
+                        for (month in Calendar.getInstance().get(Calendar.MONTH)..12) {
+                            monthsList.add(db.getSmallMonth(month, year))
+                        }
+                    } else {
+                        for (month in 1..12) {
+                            monthsList.add(db.getSmallMonth(month, year))
+                        }
                     }
                 }
             } else {
                 for (year in 2024..2025) {
-                    for (month in 1..12) {
-                        monthsList.add(db.getSmallMonth(month, year))
+                    if(year == 2024) {
+                        for (month in Calendar.getInstance().get(Calendar.MONTH)..12) {
+                            monthsList.add(db.getSmallMonth(month, year))
+                        }
+                    } else {
+                        for (month in 1..12) {
+                            monthsList.add(db.getSmallMonth(month, year))
+                        }
                     }
                 }
             }
