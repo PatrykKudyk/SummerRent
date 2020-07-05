@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.MainMenuFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fontFamily="@font/josefinsansbold"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textSize="40dip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <Button
+            android:id="@+id/menu_button_past"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textColor="@color/colorBackground"
+            android:text="@string/past_rents"
+            android:textSize="30dip"
+            android:fontFamily="@font/josefinsansbold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/button_background_light"
+            app:layout_constraintTop_toBottomOf="@+id/view2"
+            app:layout_constraintWidth_percent="0.7" />
+
+        <Button
+            android:id="@+id/menu_button_current"
+            android:layout_width="0dp"
+            android:layout_marginTop="50dp"
+            android:layout_height="0dp"
+            android:textColor="@color/colorBackground"
+            android:text="@string/current_rents"
+            android:textSize="30dip"
+            android:fontFamily="@font/josefinsansbold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/button_background_medium"
+            app:layout_constraintTop_toBottomOf="@+id/menu_button_past"
+            app:layout_constraintWidth_percent="0.7" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
