@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.partos.summerrent.R
 import com.partos.summerrent.db.DataBaseHelper
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -84,6 +85,8 @@ class PastFragment : Fragment() {
     }
 
     private fun initFragment() {
+        val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
     }
 
