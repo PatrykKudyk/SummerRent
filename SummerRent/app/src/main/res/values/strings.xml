@@ -23,6 +23,6 @@
     <string name="house_big">\t\t47</string>
     <string name="past_rents">Past rents</string>
     <string name="current_rents">Current rents</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
 </resources>

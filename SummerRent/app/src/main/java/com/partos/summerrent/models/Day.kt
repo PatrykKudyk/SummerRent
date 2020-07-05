@@ -4,7 +4,8 @@ class Day (
     var id: Long,
     var date: Date,
     var status: Int,
-    var note: String
+    var note: String,
+    var color: Int
 ) {
 
 }

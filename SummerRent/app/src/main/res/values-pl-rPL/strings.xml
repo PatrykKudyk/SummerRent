@@ -24,4 +24,6 @@
     <string name="house_big">\t47</string>
     <string name="past_rents">Przeszłe</string>
     <string name="current_rents">Aktualne</string>
+    <string name="edit">Edytuj</string>
+    <string name="save">Zapisz</string>
 </resources>

@@ -8,7 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.viewpager.widget.ViewPager
 import com.partos.summerrent.R
+import com.partos.summerrent.calendar.CalendarHelper
+import com.partos.summerrent.db.DataBaseHelper
+import com.partos.summerrent.pager.PastRentsViewPagerAdapter
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,6 +36,7 @@ class PastFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var rootView: View
+    private lateinit var viewPager: ViewPager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +89,8 @@ class PastFragment : Fragment() {
     }
 
     private fun initFragment() {
-
+        viewPager = rootView.findViewById(R.id.past_view_pager)
+        viewPager.adapter = PastRentsViewPagerAdapter(rootView.context)
     }
+
 }

@@ -5,6 +5,7 @@ import com.partos.summerrent.models.Date
 
 class MyApp() : Application() {
     companion object {
-        val dayOne = Date(1, 6, 2020, 1)
+        val dayOne = Date(1, 1, 2020, 3)
+//        val focused =
     }
 }
