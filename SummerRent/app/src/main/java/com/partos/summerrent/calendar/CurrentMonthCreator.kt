@@ -375,50 +375,13 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init31monday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i <= 3) {
-                    cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[(7 * i) + j].color,
-                        dayList[(7 * i) + j].status
-                    )
-                    cellsList[i][j].setOnClickListener {
-                        if (MyApp.focused == dayList[(7 * i) + j].date) {
-                            if (MyApp.color != -1) {
-                                when (dayList[(7 * i) + j].status) {
-                                    0 -> dayList[(7 * i) + j].status = 1
-                                    1 -> dayList[(7 * i) + j].status = 2
-                                    2 -> dayList[(7 * i) + j].status = 3
-                                    3 -> dayList[(7 * i) + j].status = 0
-                                }
-                                dayList[(7 * i) + j].color = MyApp.color
-                            }
-                        } else {
-                            MyApp.focused = dayList[(7 * i) + j].date
-//                            val activity = (context as MainActivity)
-//                            activity.current_card_view.visibility = View.GONE
-                        }
-//                        val activity = (context as MainActivity)
-//                        activity.current_card_view.visibility = View.VISIBLE
-//                        activity.current_text_note.setText(dayList[(7 * i) + j].note)
-                    }
-                    cellsList[i][j].setOnLongClickListener {
-                        val activity = (context as MainActivity)
-                        activity.current_card_view.visibility = View.VISIBLE
-                        activity.current_text_note.setText(dayList[(7 * i) + j].note)
-                        true
-                    }
+                    setTextView(i, j, 0, dayList)
                 } else {
                     if (j <= 2) {
-                        cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[(7 * i) + j].color,
-                            dayList[(7 * i) + j].status
-                        )
+                        setTextView(i, j, 0, dayList)
                     }
                 }
             }
@@ -426,33 +389,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init31tuesday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 0) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 1].color,
-                            dayList[((7 * i) + j) - 1].status
-                        )
+                        setTextView(i, j, 1, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 1].color,
-                        dayList[((7 * i) + j) - 1].status
-                    )
+                    setTextView(i, j, 1, dayList)
                 } else {
                     if (j <= 3) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 1].color,
-                            dayList[((7 * i) + j) - 1].status
-                        )
+                        setTextView(i, j, 1, dayList)
                     }
                 }
             }
@@ -460,68 +407,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init31wednesday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 1) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 2].color,
-                            dayList[((7 * i) + j) - 2].status
-                        )
-                        cellsList[i][j].setOnLongClickListener {
-                            activity.current_card_view.visibility = View.VISIBLE
-                            if (isBig) {
-                                activity.current_text_note.setText(
-                                    db.getBig(
-                                        dayList[((7 * i) + j) - 2].date.day,
-                                        dayList[((7 * i) + j) - 2].date.month,
-                                        dayList[((7 * i) + j) - 2].date.year
-                                    ).note
-                                )
-                            } else {
-                                activity.current_text_note.setText(
-                                    db.getSmall(
-                                        dayList[((7 * i) + j) - 2].date.day,
-                                        dayList[((7 * i) + j) - 2].date.month,
-                                        dayList[((7 * i) + j) - 2].date.year
-                                    ).note
-                                )
-                            }
-                            activity.current_note_save.setOnClickListener {
-                                var day = db.getSmall(
-                                    dayList[((7 * i) + j) - 2].date.day,
-                                    dayList[((7 * i) + j) - 2].date.month,
-                                    dayList[((7 * i) + j) - 2].date.year
-                                )
-                                day.note = activity.current_text_note.text.toString()
-                                if (isBig){
-                                    db.updateBig(day)
-                                } else {
-                                    db.updateSmall(day)
-                                }
-                            }
-                            true
-                        }
+                        setTextView(i, j, 2, dayList)
                     }
                 } else if (i <= 3) {
-                    val text = dayList[((7 * i) + j) - 2].date.day.toString()
-                    cellsList[i][j].setText(text)
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 2].color,
-                        dayList[((7 * i) + j) - 2].status
-                    )
+                    setTextView(i, j, 2, dayList)
                 } else {
                     if (j <= 4) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 2].color,
-                            dayList[((7 * i) + j) - 2].status
-                        )
+                        setTextView(i, j, 2, dayList)
                     }
                 }
             }
@@ -529,33 +425,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init31thursday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 2) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 3].color,
-                            dayList[((7 * i) + j) - 3].status
-                        )
+                        setTextView(i, j, 3, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 3].color,
-                        dayList[((7 * i) + j) - 3].status
-                    )
+                    setTextView(i, j, 3, dayList)
                 } else {
                     if (j <= 5) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 3].color,
-                            dayList[((7 * i) + j) - 3].status
-                        )
+                        setTextView(i, j, 3, dayList)
                     }
                 }
             }
@@ -563,58 +443,31 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init31friday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 3) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 4].color,
-                            dayList[((7 * i) + j) - 4].status
-                        )
+                        setTextView(i, j, 4, dayList)
                     }
                 } else if (i <= 4) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 4].color,
-                        dayList[((7 * i) + j) - 4].status
-                    )
+                    setTextView(i, j, 4, dayList)
                 }
             }
         }
     }
 
     private fun init31saturday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..5) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 4) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 5].color,
-                            dayList[((7 * i) + j) - 5].status
-                        )
+                        setTextView(i, j, 5, dayList)
                     }
                 } else if (i <= 4) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 5].color,
-                        dayList[((7 * i) + j) - 5].status
-                    )
+                    setTextView(i, j, 5, dayList)
                 } else {
                     if (j == 0) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 5].color,
-                            dayList[((7 * i) + j) - 5].status
-                        )
+                        setTextView(i, j, 5, dayList)
                     }
                 }
             }
@@ -622,33 +475,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init31sunday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..5) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 5) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 6].color,
-                            dayList[((7 * i) + j) - 6].status
-                        )
+                        setTextView(i, j, 6, dayList)
                     }
                 } else if (i <= 4) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 6].color,
-                        dayList[((7 * i) + j) - 6].status
-                    )
+                    setTextView(i, j, 6, dayList)
                 } else {
                     if (j <= 1) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 6].color,
-                            dayList[((7 * i) + j) - 6].status
-                        )
+                        setTextView(i, j, 6, dayList)
                     }
                 }
             }
@@ -656,24 +493,13 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init30monday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i <= 3) {
-                    cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[(7 * i) + j].color,
-                        dayList[(7 * i) + j].status
-                    )
+                    setTextView(i, j, 0, dayList)
                 } else {
                     if (j <= 1) {
-                        cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[(7 * i) + j].color,
-                            dayList[(7 * i) + j].status
-                        )
+                        setTextView(i, j, 0, dayList)
                     }
                 }
             }
@@ -681,33 +507,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init30tuesday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 0) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 1].color,
-                            dayList[((7 * i) + j) - 1].status
-                        )
+                        setTextView(i, j, 1, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 1].color,
-                        dayList[((7 * i) + j) - 1].status
-                    )
+                    setTextView(i, j, 1, dayList)
                 } else {
                     if (j <= 2) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 1].color,
-                            dayList[((7 * i) + j) - 1].status
-                        )
+                        setTextView(i, j, 1, dayList)
                     }
                 }
             }
@@ -715,34 +525,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init30wednesday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 1) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 2].color,
-                            dayList[((7 * i) + j) - 2].status
-                        )
+                        setTextView(i, j, 2, dayList)
                     }
                 } else if (i <= 3) {
-                    val text = dayList[((7 * i) + j) - 2].date.day.toString()
-                    cellsList[i][j].setText(text)
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 2].color,
-                        dayList[((7 * i) + j) - 2].status
-                    )
+                    setTextView(i, j, 2, dayList)
                 } else {
                     if (j <= 3) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 2].color,
-                            dayList[((7 * i) + j) - 2].status
-                        )
+                        setTextView(i, j, 2, dayList)
                     }
                 }
             }
@@ -750,33 +543,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init30thursday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 2) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 3].color,
-                            dayList[((7 * i) + j) - 3].status
-                        )
+                        setTextView(i, j, 3, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 3].color,
-                        dayList[((7 * i) + j) - 3].status
-                    )
+                    setTextView(i, j, 3, dayList)
                 } else {
                     if (j <= 4) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 3].color,
-                            dayList[((7 * i) + j) - 3].status
-                        )
+                        setTextView(i, j, 3, dayList)
                     }
                 }
             }
@@ -784,33 +561,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init30friday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 3) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 4].color,
-                            dayList[((7 * i) + j) - 4].status
-                        )
+                        setTextView(i, j, 4, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 4].color,
-                        dayList[((7 * i) + j) - 4].status
-                    )
+                    setTextView(i, j, 4, dayList)
                 } else {
                     if (j <= 5) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 4].color,
-                            dayList[((7 * i) + j) - 4].status
-                        )
+                        setTextView(i, j, 4, dayList)
                     }
                 }
             }
@@ -818,109 +579,59 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init30saturday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 4) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 5].color,
-                            dayList[((7 * i) + j) - 5].status
-                        )
+                        setTextView(i, j, 5, dayList)
                     }
                 } else if (i <= 4) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 5].color,
-                        dayList[((7 * i) + j) - 5].status
-                    )
+                    setTextView(i, j, 5, dayList)
                 }
             }
         }
     }
 
     private fun init30sunday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..5) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 5) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 6].color,
-                            dayList[((7 * i) + j) - 6].status
-                        )
+                        setTextView(i, j, 6, dayList)
                     }
                 } else if (i <= 4) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 6].color,
-                        dayList[((7 * i) + j) - 6].status
-                    )
+                    setTextView(i, j, 6, dayList)
                 } else {
                     if (j == 0) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 6].color,
-                            dayList[((7 * i) + j) - 6].status
-                        )
+                        setTextView(i, j, 6, dayList)
                     }
                 }
             }
         }
     }
 
-
     private fun init28monday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..3) {
             for (j in 0..6) {
                 if (i <= 4) {
-                    cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[(7 * i) + j].color,
-                        dayList[(7 * i) + j].status
-                    )
+                    setTextView(i, j, 0, dayList)
                 }
             }
         }
     }
 
     private fun init28tuesday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 0) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 1].color,
-                            dayList[((7 * i) + j) - 1].status
-                        )
+                        setTextView(i, j, 1, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 1].color,
-                        dayList[((7 * i) + j) - 1].status
-                    )
+                    setTextView(i, j, 1, dayList)
                 } else {
                     if (j == 0) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 1].color,
-                            dayList[((7 * i) + j) - 1].status
-                        )
+                        setTextView(i, j, 1, dayList)
                     }
                 }
             }
@@ -928,34 +639,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init28wednesday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 1) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 2].color,
-                            dayList[((7 * i) + j) - 2].status
-                        )
+                        setTextView(i, j, 2, dayList)
                     }
                 } else if (i <= 3) {
-                    val text = dayList[((7 * i) + j) - 2].date.day.toString()
-                    cellsList[i][j].setText(text)
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 2].color,
-                        dayList[((7 * i) + j) - 2].status
-                    )
+                    setTextView(i, j, 2, dayList)
                 } else {
                     if (j <= 1) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 2].color,
-                            dayList[((7 * i) + j) - 2].status
-                        )
+                        setTextView(i, j, 2, dayList)
                     }
                 }
             }
@@ -963,33 +657,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init28thursday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 2) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 3].color,
-                            dayList[((7 * i) + j) - 3].status
-                        )
+                        setTextView(i, j, 3, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 3].color,
-                        dayList[((7 * i) + j) - 3].status
-                    )
+                    setTextView(i, j, 3, dayList)
                 } else {
                     if (j <= 2) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 3].color,
-                            dayList[((7 * i) + j) - 3].status
-                        )
+                        setTextView(i, j, 3, dayList)
                     }
                 }
             }
@@ -997,33 +675,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init28friday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 3) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 4].color,
-                            dayList[((7 * i) + j) - 4].status
-                        )
+                        setTextView(i, j, 4, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 4].color,
-                        dayList[((7 * i) + j) - 4].status
-                    )
+                    setTextView(i, j, 4, dayList)
                 } else {
                     if (j <= 3) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 4].color,
-                            dayList[((7 * i) + j) - 4].status
-                        )
+                        setTextView(i, j, 4, dayList)
                     }
                 }
             }
@@ -1031,33 +693,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init28saturday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 4) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 5].color,
-                            dayList[((7 * i) + j) - 5].status
-                        )
+                        setTextView(i, j, 5, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 5].color,
-                        dayList[((7 * i) + j) - 5].status
-                    )
+                    setTextView(i, j, 5, dayList)
                 } else {
                     if (j <= 4) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 5].color,
-                            dayList[((7 * i) + j) - 5].status
-                        )
+                        setTextView(i, j, 5, dayList)
                     }
                 }
             }
@@ -1065,33 +711,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init28sunday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 5) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 6].color,
-                            dayList[((7 * i) + j) - 6].status
-                        )
+                        setTextView(i, j, 6, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 6].color,
-                        dayList[((7 * i) + j) - 6].status
-                    )
+                    setTextView(i, j, 6, dayList)
                 } else {
                     if (j <= 5) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 6].color,
-                            dayList[((7 * i) + j) - 6].status
-                        )
+                        setTextView(i, j, 6, dayList)
                     }
                 }
             }
@@ -1099,24 +729,13 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init29monday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i <= 4) {
-                    cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[(7 * i) + j].color,
-                        dayList[(7 * i) + j].status
-                    )
+                    setTextView(i, j, 0, dayList)
                 } else {
                     if (j == 0) {
-                        cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[(7 * i) + j].color,
-                            dayList[(7 * i) + j].status
-                        )
+                        setTextView(i, j, 0, dayList)
                     }
                 }
             }
@@ -1124,33 +743,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init29tuesday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 0) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 1].color,
-                            dayList[((7 * i) + j) - 1].status
-                        )
+                        setTextView(i, j, 1, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 1].color,
-                        dayList[((7 * i) + j) - 1].status
-                    )
+                    setTextView(i, j, 1, dayList)
                 } else {
                     if (j <= 1) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 1].color,
-                            dayList[((7 * i) + j) - 1].status
-                        )
+                        setTextView(i, j, 1, dayList)
                     }
                 }
             }
@@ -1158,34 +761,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init29wednesday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 1) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 2].color,
-                            dayList[((7 * i) + j) - 2].status
-                        )
+                        setTextView(i, j, 2, dayList)
                     }
                 } else if (i <= 3) {
-                    val text = dayList[((7 * i) + j) - 2].date.day.toString()
-                    cellsList[i][j].setText(text)
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 2].color,
-                        dayList[((7 * i) + j) - 2].status
-                    )
+                    setTextView(i, j, 2, dayList)
                 } else {
                     if (j <= 2) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 2].color,
-                            dayList[((7 * i) + j) - 2].status
-                        )
+                        setTextView(i, j, 2, dayList)
                     }
                 }
             }
@@ -1193,33 +779,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init29thursday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 2) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 3].color,
-                            dayList[((7 * i) + j) - 3].status
-                        )
+                        setTextView(i, j, 3, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 3].color,
-                        dayList[((7 * i) + j) - 3].status
-                    )
+                    setTextView(i, j, 3, dayList)
                 } else {
                     if (j <= 3) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 3].color,
-                            dayList[((7 * i) + j) - 3].status
-                        )
+                        setTextView(i, j, 3, dayList)
                     }
                 }
             }
@@ -1227,33 +797,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init29friday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 3) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 4].color,
-                            dayList[((7 * i) + j) - 4].status
-                        )
+                        setTextView(i, j, 4, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 4].color,
-                        dayList[((7 * i) + j) - 4].status
-                    )
+                    setTextView(i, j, 4, dayList)
                 } else {
                     if (j <= 4) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 4].color,
-                            dayList[((7 * i) + j) - 4].status
-                        )
+                        setTextView(i, j, 4, dayList)
                     }
                 }
             }
@@ -1261,33 +815,17 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init29saturday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 4) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 5].color,
-                            dayList[((7 * i) + j) - 5].status
-                        )
+                        setTextView(i, j, 5, dayList)
                     }
                 } else if (i <= 3) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 5].color,
-                        dayList[((7 * i) + j) - 5].status
-                    )
+                    setTextView(i, j, 5, dayList)
                 } else {
                     if (j <= 5) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 5].color,
-                            dayList[((7 * i) + j) - 5].status
-                        )
+                        setTextView(i, j, 5, dayList)
                     }
                 }
             }
@@ -1295,25 +833,14 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
     }
 
     private fun init29sunday(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
-        val db = DataBaseHelper(holder.view.context)
         for (i in 0..4) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 5) {
-                        cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                        setCellBackground(
-                            cellsList[i][j],
-                            dayList[((7 * i) + j) - 6].color,
-                            dayList[((7 * i) + j) - 6].status
-                        )
+                        setTextView(i, j, 6, dayList)
                     }
                 } else if (i <= 4) {
-                    cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
-                    setCellBackground(
-                        cellsList[i][j],
-                        dayList[((7 * i) + j) - 6].color,
-                        dayList[((7 * i) + j) - 6].status
-                    )
+                    setTextView(i, j, 6, dayList)
                 }
             }
         }
@@ -1358,6 +885,85 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
         for (i in 0..5) {
             for (j in 0..6) {
                 cellsList[i][j].setText("")
+            }
+        }
+    }
+
+    private fun setTextView(i: Int, j: Int, move: Int, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(context)
+        cellsList[i][j].setText(dayList[((7 * i) + j) - move].date.day.toString())
+        setCellBackground(
+            cellsList[i][j],
+            dayList[((7 * i) + j) - move].color,
+            dayList[((7 * i) + j) - move].status
+        )
+        cellsList[i][j].setOnLongClickListener {
+            activity.current_card_view.visibility = View.VISIBLE
+            if (isBig) {
+                activity.current_text_note.setText(
+                    db.getBig(
+                        dayList[((7 * i) + j) - move].date.day,
+                        dayList[((7 * i) + j) - move].date.month,
+                        dayList[((7 * i) + j) - move].date.year
+                    ).note
+                )
+            } else {
+                activity.current_text_note.setText(
+                    db.getSmall(
+                        dayList[((7 * i) + j) - move].date.day,
+                        dayList[((7 * i) + j) - move].date.month,
+                        dayList[((7 * i) + j) - move].date.year
+                    ).note
+                )
+            }
+            activity.current_note_save.setOnClickListener {
+                var day = db.getSmall(
+                    dayList[((7 * i) + j) - move].date.day,
+                    dayList[((7 * i) + j) - move].date.month,
+                    dayList[((7 * i) + j) - move].date.year
+                )
+                day.note = activity.current_text_note.text.toString()
+                if (isBig){
+                    db.updateBig(day)
+                } else {
+                    db.updateSmall(day)
+                }
+            }
+            true
+        }
+        cellsList[i][j].setOnClickListener {
+            if (MyApp.isEditing) {
+                if (MyApp.focused != dayList[((7 * i) + j) - move].date) {
+                    MyApp.focused = dayList[((7 * i) + j) - move].date
+                } else {
+                    if (MyApp.color != -1){
+                        var day = db.getSmall(
+                            dayList[((7 * i) + j) - move].date.day,
+                            dayList[((7 * i) + j) - move].date.month,
+                            dayList[((7 * i) + j) - move].date.year
+                        )
+                        day.color = MyApp.color
+                        if (MyApp.color == 0) {
+                            day.status = 0
+                            day.color = 0
+                        } else if (MyApp.color == 1 || MyApp.color == 2 || MyApp.color == 3) {
+                            when (day.status) {
+                                0 -> day.status = 1
+                                1 -> day.status = 2
+                                2 -> day.status = 3
+                                3 -> day.status = 0
+                            }
+                        } else {
+                            day.status = 1
+                        }
+                        setCellBackground(cellsList[i][j], day.color, day.status)
+                        if (isBig){
+                            db.updateBig(day)
+                        } else {
+                            db.updateSmall(day)
+                        }
+                    }
+                }
             }
         }
     }
