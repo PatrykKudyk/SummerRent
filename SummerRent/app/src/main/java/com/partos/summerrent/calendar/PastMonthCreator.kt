@@ -877,10 +877,12 @@ class PastMonthCreator(val isBig: Boolean) {
     private fun setCellBackground(textView: TextView, color: Int, status: Int) {
         when (status) {
             0 -> {
-
+                textView.background = null
             }
             1 -> {
+                when (color){
 
+                }
             }
             2 -> {
 
