@@ -8,8 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
+import androidx.viewpager.widget.ViewPager
+import com.partos.summerrent.MyApp
 import com.partos.summerrent.R
 import com.partos.summerrent.db.DataBaseHelper
+import com.partos.summerrent.pager.CurrentRentsViewPagedAdapter
+import com.partos.summerrent.pager.PastRentsViewPagerAdapter
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,6 +37,22 @@ class CurrentFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var rootView: View
+    private lateinit var viewPager: ViewPager
+    private lateinit var editButton: Button
+    private lateinit var saveButton: Button
+    private lateinit var editLayout: LinearLayout
+    private lateinit var colorsLayout: LinearLayout
+    private lateinit var greenButton: Button
+    private lateinit var orangeButton: Button
+    private lateinit var redButton: Button
+    private lateinit var greenOrangeButton: Button
+    private lateinit var orangeGreenButton: Button
+    private lateinit var redGreenButton: Button
+    private lateinit var greenRedButton: Button
+    private lateinit var orangeRedButton: Button
+    private lateinit var redOrangeButton: Button
+    private lateinit var blackButton: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +105,66 @@ class CurrentFragment : Fragment() {
     }
 
     private fun initFragment() {
+        assignViews()
+        viewPager.adapter = CurrentRentsViewPagedAdapter(rootView.context)
+        editButton.setOnClickListener {
+            editLayout.visibility = View.GONE
+            colorsLayout.visibility =  View.VISIBLE
+            MyApp.isEditing = true
+        }
+        saveButton.setOnClickListener {
+            colorsLayout.visibility = View.GONE
+            editLayout.visibility = View.VISIBLE
+            MyApp.isEditing = false
+            MyApp.color = -1
+        }
+        blackButton.setOnClickListener {
+            MyApp.color = 0
+        }
+        greenButton.setOnClickListener {
+            MyApp.color = 1
+        }
+        orangeButton.setOnClickListener {
+            MyApp.color = 2
+        }
+        redButton.setOnClickListener {
+            MyApp.color = 3
+        }
+        greenOrangeButton.setOnClickListener {
+            MyApp.color = 4
+        }
+        orangeGreenButton.setOnClickListener {
+            MyApp.color = 5
+        }
+        redGreenButton.setOnClickListener {
+            MyApp.color = 6
+        }
+        greenRedButton.setOnClickListener {
+            MyApp.color = 7
+        }
+        orangeRedButton.setOnClickListener {
+            MyApp.color = 8
+        }
+        redOrangeButton.setOnClickListener {
+            MyApp.color = 9
+        }
+    }
 
+    private fun assignViews() {
+        viewPager = rootView.findViewById(R.id.current_view_pager)
+        editButton = rootView.findViewById(R.id.current_button_edit)
+        saveButton = rootView.findViewById(R.id.current_colors_save)
+        editLayout = rootView.findViewById(R.id.current_layout_edit)
+        colorsLayout = rootView.findViewById(R.id.current_layout_colors)
+        greenButton = rootView.findViewById(R.id.current_colors_green)
+        orangeButton = rootView.findViewById(R.id.current_colors_orange)
+        redButton = rootView.findViewById(R.id.current_colors_red)
+        greenOrangeButton = rootView.findViewById(R.id.current_colors_green_orange)
+        orangeGreenButton = rootView.findViewById(R.id.current_colors_orange_green)
+        redGreenButton = rootView.findViewById(R.id.current_colors_red_green)
+        greenRedButton = rootView.findViewById(R.id.current_colors_green_red)
+        orangeRedButton = rootView.findViewById(R.id.current_colors_orange_red)
+        redOrangeButton = rootView.findViewById(R.id.current_colors_red_orange)
+        blackButton = rootView.findViewById(R.id.current_colors_black)
     }
 }

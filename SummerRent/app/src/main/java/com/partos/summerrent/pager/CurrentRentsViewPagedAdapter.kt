@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.partos.summerrent.R
-import com.partos.summerrent.db.DataBaseHelper
+import com.partos.summerrent.calendar.CalendarHelper
+import com.partos.summerrent.recycler.CurrentRentsRecyclerViewAdapter
 import com.partos.summerrent.recycler.MarginItemDecoration
-import com.partos.summerrent.recycler.RentsRecyclerViewAdapter
 import kotlinx.android.synthetic.main.view_pager_cell.view.*
 
-class RentsViewPagerAdapter : PagerAdapter {
+class CurrentRentsViewPagedAdapter : PagerAdapter {
 
     var context: Context
 
@@ -48,18 +48,15 @@ class RentsViewPagerAdapter : PagerAdapter {
             )
         )
 
-        val db = DataBaseHelper(view.context)
-        val now = java.util.Calendar.getInstance()
+        val calendarHelper = CalendarHelper(context)
 
-//        if (position == 0) {
-//            recyclerView.adapter = RentsRecyclerViewAdapter(false, db.getSmallList(
-//                now.time.year, now.time.year + 2
-//            ))
-//        } else if (position == 1){
-//            recyclerView.adapter = RentsRecyclerViewAdapter(true, db.getBigList(
-//                now.time.year, now.time.year + 2
-//            ))
-//        }
+        if (position == 0) {
+            recyclerView.adapter =
+                CurrentRentsRecyclerViewAdapter(false, calendarHelper.getSmallMonthsList(false))
+        } else if (position == 1) {
+            recyclerView.adapter =
+                CurrentRentsRecyclerViewAdapter(true, calendarHelper.getBigMonthsList(false))
+        }
 
         container!!.addView(view)
 
