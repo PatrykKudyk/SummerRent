@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.icu.util.Calendar
 import android.provider.BaseColumns
 import com.partos.summerrent.MyApp
 import com.partos.summerrent.models.Date
@@ -19,6 +20,7 @@ object TableInfo : BaseColumns {
     const val TABLE_COLUMN_DAY_OF_WEEK = "dayOfWeek"
     const val TABLE_COLUMN_STATUS = "status"
     const val TABLE_COLUMN_NOTE = "note"
+    const val TABLE_COLUMN_COLOR = "color"
     const val TABLE_NAME_BIG = "Big"
 
 }
@@ -30,7 +32,9 @@ object BasicCommand {
                 "${TableInfo.TABLE_COLUMN_DAY} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_MONTH} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_YEAR} INTEGER NOT NULL," +
+                "${TableInfo.TABLE_COLUMN_DAY_OF_WEEK} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_STATUS} INTEGER NOT NULL," +
+                "${TableInfo.TABLE_COLUMN_COLOR} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_NOTE} TEXT NOT NULL)"
 
     const val SQL_CREATE_TABLE_BIG =
@@ -39,7 +43,9 @@ object BasicCommand {
                 "${TableInfo.TABLE_COLUMN_DAY} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_MONTH} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_YEAR} INTEGER NOT NULL," +
+                "${TableInfo.TABLE_COLUMN_DAY_OF_WEEK} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_STATUS} INTEGER NOT NULL," +
+                "${TableInfo.TABLE_COLUMN_COLOR} INTEGER NOT NULL," +
                 "${TableInfo.TABLE_COLUMN_NOTE} TEXT NOT NULL)"
 
     const val SQL_DELETE_TABLE_SMALL = "DROP TABLE IF EXISTS ${TableInfo.TABLE_NAME_SMALL}"
@@ -61,29 +67,35 @@ class DataBaseHelper(context: Context) :
     }
 
     fun initDatabase() {
-        for (year in 2020..2022) {
+        for (year in 2020..2030) {
             for (month in 0..12) {
                 for (day in 0..31) {
                     if (month == 2) {
-                        if (year == 2020 && day <= 29) {
-                            addSmall(day, month, year, 0, "")
-                            addBig(day, month, year, 0, "")
-                        } else if (year == 2021 && day <= 28) {
-                            addSmall(day, month, year, 0, "")
-                            addBig(day, month, year, 0, "")
+                        if ((year == 2020 && day <= 29) ||  (year == 2024 && day <= 29) || (year == 2028 && day <= 29)) {
+                            addSmall(day, month, year, getDayOfWeek(day, month, year), 0, "", 0)
+                            addBig(day, month, year, getDayOfWeek(day, month, year), 0, "", 0)
+                        } else if (day <= 28) {
+                            addSmall(day, month, year, getDayOfWeek(day, month, year), 0, "", 0)
+                            addBig(day, month, year, getDayOfWeek(day, month, year), 0, "", 0)
                         }
                     } else if (month == 4 || month == 6 || month == 9 || month == 11) {
-                        if (day <= 30){
-                            addSmall(day, month, year, 0, "")
-                            addBig(day, month, year, 0, "")
+                        if (day <= 30) {
+                            addSmall(day, month, year, getDayOfWeek(day, month, year), 0, "", 0)
+                            addBig(day, month, year, getDayOfWeek(day, month, year), 0, "", 0)
                         }
                     } else {
-                        addSmall(day, month, year, 0, "")
-                        addBig(day, month, year, 0, "")
+                        addSmall(day, month, year, getDayOfWeek(day, month, year), 0, "", 0)
+                        addBig(day, month, year, getDayOfWeek(day, month, year), 0, "", 0)
                     }
                 }
             }
         }
+    }
+
+    private fun getDayOfWeek(day: Int, month: Int, year: Int): Int {
+        var calendar = Calendar.getInstance()
+        calendar.set(year, month, day)
+        return calendar.get(Calendar.DAY_OF_WEEK)
     }
 
 
@@ -99,10 +111,12 @@ class DataBaseHelper(context: Context) :
                     Date(
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
                     ),
                     result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
-                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
+                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE)),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_COLOR))
                 )
                 smallList.add(day)
             } while (result.moveToNext())
@@ -110,6 +124,64 @@ class DataBaseHelper(context: Context) :
         result.close()
         db.close()
         return smallList
+    }
+
+    fun getSmallList(fromYear: Int, toYear: Int): ArrayList<Day> {
+        var smallList = ArrayList<Day>()
+        val db = readableDatabase
+        val selectQuery =
+            "Select * from ${TableInfo.TABLE_NAME_SMALL} where ${TableInfo.TABLE_COLUMN_YEAR} >= " +
+                    fromYear.toString() + " and ${TableInfo.TABLE_COLUMN_YEAR} <=" + toYear.toString()
+        val result = db.rawQuery(selectQuery, null)
+        if (result.moveToFirst()) {
+            do {
+                var day = Day(
+                    result.getInt(result.getColumnIndex(BaseColumns._ID)).toLong(),
+                    Date(
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
+                    ),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
+                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE)),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_COLOR))
+                )
+                smallList.add(day)
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return smallList
+    }
+
+    fun getBigList(fromYear: Int, toYear: Int): ArrayList<Day> {
+        var bigList = ArrayList<Day>()
+        val db = readableDatabase
+        val selectQuery =
+            "Select * from ${TableInfo.TABLE_NAME_BIG} where ${TableInfo.TABLE_COLUMN_YEAR} >= " +
+                    fromYear.toString() + " and ${TableInfo.TABLE_COLUMN_YEAR} <=" + toYear.toString()
+        val result = db.rawQuery(selectQuery, null)
+        if (result.moveToFirst()) {
+            do {
+                var day = Day(
+                    result.getInt(result.getColumnIndex(BaseColumns._ID)).toLong(),
+                    Date(
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
+                    ),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
+                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE)),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_COLOR))
+                )
+                bigList.add(day)
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return bigList
     }
 
     fun getBigList(): ArrayList<Day> {
@@ -124,10 +196,12 @@ class DataBaseHelper(context: Context) :
                     Date(
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
                     ),
                     result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
-                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
+                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE)),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_COLOR))
                 )
                 bigList.add(day)
             } while (result.moveToNext())
@@ -151,10 +225,12 @@ class DataBaseHelper(context: Context) :
                     Date(
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
                     ),
                     result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
-                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
+                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE)),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_COLOR))
                 )
                 smallList.add(smallDay)
             } while (result.moveToNext())
@@ -179,10 +255,12 @@ class DataBaseHelper(context: Context) :
                     Date(
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
                     ),
                     result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
-                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
+                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE)),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_COLOR))
                 )
                 bigList.add(bigDay)
             } while (result.moveToNext())
@@ -208,10 +286,12 @@ class DataBaseHelper(context: Context) :
                     Date(
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
                     ),
                     result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
-                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
+                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE)),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_COLOR))
                 )
                 smallList.add(smallDay)
             } while (result.moveToNext())
@@ -237,10 +317,13 @@ class DataBaseHelper(context: Context) :
                     Date(
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY)),
                         result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_MONTH)),
-                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR))
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_YEAR)),
+                        result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_DAY_OF_WEEK))
+
                     ),
                     result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_STATUS)),
-                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE))
+                    result.getString(result.getColumnIndex(TableInfo.TABLE_COLUMN_NOTE)),
+                    result.getInt(result.getColumnIndex(TableInfo.TABLE_COLUMN_COLOR))
                 )
                 bigList.add(smallDay)
             } while (result.moveToNext())
@@ -255,16 +338,20 @@ class DataBaseHelper(context: Context) :
         day: Int,
         month: Int,
         year: Int,
+        dayOfWeek: Int,
         status: Int,
-        note: String
+        note: String,
+        color: Int
     ): Boolean {
         val db = this.writableDatabase
         val values = ContentValues()
         values.put(TableInfo.TABLE_COLUMN_DAY, day)
         values.put(TableInfo.TABLE_COLUMN_MONTH, month)
         values.put(TableInfo.TABLE_COLUMN_YEAR, year)
+        values.put(TableInfo.TABLE_COLUMN_DAY_OF_WEEK, dayOfWeek)
         values.put(TableInfo.TABLE_COLUMN_STATUS, status)
         values.put(TableInfo.TABLE_COLUMN_NOTE, note)
+        values.put(TableInfo.TABLE_COLUMN_COLOR, color)
         val success = db.insert(TableInfo.TABLE_NAME_SMALL, null, values)
         db.close()
         return (Integer.parseInt("$success") != -1)
@@ -274,16 +361,20 @@ class DataBaseHelper(context: Context) :
         day: Int,
         month: Int,
         year: Int,
+        dayOfWeek: Int,
         status: Int,
-        note: String
+        note: String,
+        color: Int
     ): Boolean {
         val db = this.writableDatabase
         val values = ContentValues()
         values.put(TableInfo.TABLE_COLUMN_DAY, day)
         values.put(TableInfo.TABLE_COLUMN_MONTH, month)
         values.put(TableInfo.TABLE_COLUMN_YEAR, year)
+        values.put(TableInfo.TABLE_COLUMN_DAY_OF_WEEK, dayOfWeek)
         values.put(TableInfo.TABLE_COLUMN_STATUS, status)
         values.put(TableInfo.TABLE_COLUMN_NOTE, note)
+        values.put(TableInfo.TABLE_COLUMN_COLOR, color)
         val success = db.insert(TableInfo.TABLE_NAME_BIG, null, values)
         db.close()
         return (Integer.parseInt("$success") != -1)
@@ -295,8 +386,10 @@ class DataBaseHelper(context: Context) :
         values.put(TableInfo.TABLE_COLUMN_DAY, day.date.day)
         values.put(TableInfo.TABLE_COLUMN_MONTH, day.date.month)
         values.put(TableInfo.TABLE_COLUMN_YEAR, day.date.year)
+        values.put(TableInfo.TABLE_COLUMN_DAY_OF_WEEK, day.date.dayOfWeek)
         values.put(TableInfo.TABLE_COLUMN_STATUS, day.status)
         values.put(TableInfo.TABLE_COLUMN_NOTE, day.note)
+        values.put(TableInfo.TABLE_COLUMN_COLOR, day.color)
         val success = db.update(
             TableInfo.TABLE_NAME_SMALL, values, BaseColumns._ID + "=?",
             arrayOf(day.id.toString())
@@ -310,8 +403,10 @@ class DataBaseHelper(context: Context) :
         values.put(TableInfo.TABLE_COLUMN_DAY, day.date.day)
         values.put(TableInfo.TABLE_COLUMN_MONTH, day.date.month)
         values.put(TableInfo.TABLE_COLUMN_YEAR, day.date.year)
+        values.put(TableInfo.TABLE_COLUMN_DAY_OF_WEEK, day.date.dayOfWeek)
         values.put(TableInfo.TABLE_COLUMN_STATUS, day.status)
         values.put(TableInfo.TABLE_COLUMN_NOTE, day.note)
+        values.put(TableInfo.TABLE_COLUMN_COLOR, day.color)
         val success = db.update(
             TableInfo.TABLE_NAME_BIG, values, BaseColumns._ID + "=?",
             arrayOf(day.id.toString())

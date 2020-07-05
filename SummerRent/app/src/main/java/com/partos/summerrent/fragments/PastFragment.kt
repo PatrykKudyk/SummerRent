@@ -84,11 +84,7 @@ class PastFragment : Fragment() {
     }
 
     private fun initFragment() {
-        val db = DataBaseHelper(rootView.context)
-        val check = db.getSmallMonth(6, 2020)
-        if (check.size == 0) {
-            db.initDatabase()
-        }
+
     }
 
 }
