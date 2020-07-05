@@ -13,7 +13,6 @@ import com.partos.summerrent.calendar.CalendarHelper
 import com.partos.summerrent.db.DataBaseHelper
 import com.partos.summerrent.recycler.MarginItemDecoration
 import com.partos.summerrent.recycler.PastRentsRecyclerViewAdapter
-import com.partos.summerrent.recycler.RentsRecyclerViewAdapter
 import kotlinx.android.synthetic.main.view_pager_cell.view.*
 
 class PastRentsViewPagerAdapter : PagerAdapter {
