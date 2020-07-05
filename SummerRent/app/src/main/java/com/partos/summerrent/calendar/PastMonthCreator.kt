@@ -1,5 +1,6 @@
 package com.partos.summerrent.calendar
 
+import android.content.Context
 import android.widget.TextView
 import com.partos.summerrent.R
 import com.partos.summerrent.db.DataBaseHelper
@@ -7,7 +8,7 @@ import com.partos.summerrent.models.Day
 import com.partos.summerrent.recycler.PastRentsViewHolder
 import kotlinx.android.synthetic.main.cell_month.view.*
 
-class PastMonthCreator(val isBig: Boolean) {
+class PastMonthCreator(val isBig: Boolean, val context: Context) {
 
     private lateinit var cellsList: Array<Array<TextView>>
 
@@ -371,10 +372,11 @@ class PastMonthCreator(val isBig: Boolean) {
             for (j in 0..6) {
                 if (i <= 3) {
                     cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-
+                    setCellBackground(cellsList[i][j], dayList[(7 * i) + j].color, dayList[(7 * i) + j].status)
                 } else {
                     if (j <= 2) {
                         cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[(7 * i) + j].color, dayList[(7 * i) + j].status)
                     }
                 }
             }
@@ -388,12 +390,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 0) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                 } else {
                     if (j <= 3) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                     }
                 }
             }
@@ -407,13 +412,16 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 1) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                     }
                 } else if (i <= 3) {
                     val text = dayList[((7 * i) + j) - 2].date.day.toString()
                     cellsList[i][j].setText(text)
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                 } else {
                     if (j <= 4) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                     }
                 }
             }
@@ -427,12 +435,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 2) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                 } else {
                     if (j <= 5) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                     }
                 }
             }
@@ -446,9 +457,11 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 3) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                     }
                 } else if (i <= 4) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                 }
             }
         }
@@ -461,12 +474,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 4) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                     }
                 } else if (i <= 4) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                 } else {
                     if (j == 0) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                     }
                 }
             }
@@ -480,12 +496,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 5) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                     }
                 } else if (i <= 4) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                 } else {
                     if (j <= 1) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                     }
                 }
             }
@@ -498,10 +517,11 @@ class PastMonthCreator(val isBig: Boolean) {
             for (j in 0..6) {
                 if (i <= 3) {
                     cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-
+                    setCellBackground(cellsList[i][j], dayList[(7 * i) + j].color, dayList[(7 * i) + j].status)
                 } else {
                     if (j <= 1) {
                         cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[(7 * i) + j].color, dayList[(7 * i) + j].status)
                     }
                 }
             }
@@ -515,12 +535,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 0) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                 } else {
                     if (j <= 2) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                     }
                 }
             }
@@ -534,13 +557,16 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 1) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                     }
                 } else if (i <= 3) {
                     val text = dayList[((7 * i) + j) - 2].date.day.toString()
                     cellsList[i][j].setText(text)
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                 } else {
                     if (j <= 3) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                     }
                 }
             }
@@ -554,12 +580,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 2) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                 } else {
                     if (j <= 4) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                     }
                 }
             }
@@ -573,12 +602,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 3) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                 } else {
                     if (j <= 5) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                     }
                 }
             }
@@ -592,9 +624,11 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 4) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                     }
                 } else if (i <= 4) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                 }
             }
         }
@@ -607,12 +641,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 5) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                     }
                 } else if (i <= 4) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                 } else {
                     if (j == 0) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                     }
                 }
             }
@@ -626,7 +663,7 @@ class PastMonthCreator(val isBig: Boolean) {
             for (j in 0..6) {
                 if (i <= 4) {
                     cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-
+                    setCellBackground(cellsList[i][j], dayList[(7 * i) + j].color, dayList[(7 * i) + j].status)
                 }
             }
         }
@@ -639,12 +676,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 0) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                 } else {
                     if (j == 0) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                     }
                 }
             }
@@ -658,13 +698,16 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 1) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                     }
                 } else if (i <= 3) {
                     val text = dayList[((7 * i) + j) - 2].date.day.toString()
                     cellsList[i][j].setText(text)
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                 } else {
                     if (j <= 1) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                     }
                 }
             }
@@ -678,12 +721,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 2) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                 } else {
                     if (j <= 2) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                     }
                 }
             }
@@ -697,12 +743,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 3) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                 } else {
                     if (j <= 3) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                     }
                 }
             }
@@ -716,12 +765,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 4) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                 } else {
                     if (j <= 4) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                     }
                 }
             }
@@ -735,12 +787,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 5) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                 } else {
                     if (j <= 5) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                     }
                 }
             }
@@ -753,10 +808,11 @@ class PastMonthCreator(val isBig: Boolean) {
             for (j in 0..6) {
                 if (i <= 4) {
                     cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-
+                    setCellBackground(cellsList[i][j], dayList[(7 * i) + j].color, dayList[(7 * i) + j].status)
                 } else {
                     if (j == 0) {
                         cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[(7 * i) + j].color, dayList[(7 * i) + j].status)
                     }
                 }
             }
@@ -770,12 +826,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 0) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                 } else {
                     if (j <= 1) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 1].color, dayList[((7 * i) + j) - 1].status)
                     }
                 }
             }
@@ -789,13 +848,16 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 1) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                     }
                 } else if (i <= 3) {
                     val text = dayList[((7 * i) + j) - 2].date.day.toString()
                     cellsList[i][j].setText(text)
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                 } else {
                     if (j <= 2) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 2].color, dayList[((7 * i) + j) - 2].status)
                     }
                 }
             }
@@ -809,12 +871,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 2) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                 } else {
                     if (j <= 3) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 3].color, dayList[((7 * i) + j) - 3].status)
                     }
                 }
             }
@@ -828,12 +893,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 3) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                 } else {
                     if (j <= 4) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 4].color, dayList[((7 * i) + j) - 4].status)
                     }
                 }
             }
@@ -847,12 +915,15 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 4) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                     }
                 } else if (i <= 3) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                 } else {
                     if (j <= 5) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 5].color, dayList[((7 * i) + j) - 5].status)
                     }
                 }
             }
@@ -866,9 +937,11 @@ class PastMonthCreator(val isBig: Boolean) {
                 if (i == 0) {
                     if (j > 5) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                        setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                     }
                 } else if (i <= 4) {
                     cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                    setCellBackground(cellsList[i][j], dayList[((7 * i) + j) - 6].color, dayList[((7 * i) + j) - 6].status)
                 }
             }
         }
@@ -877,16 +950,34 @@ class PastMonthCreator(val isBig: Boolean) {
     private fun setCellBackground(textView: TextView, color: Int, status: Int) {
         when (status) {
             0 -> {
-
+                textView.background = null
             }
             1 -> {
-
+                when (color){
+                    1 -> textView.setBackgroundDrawable(context.getDrawable(R.drawable.start_green))
+                    2 -> textView.setBackgroundDrawable(context.getDrawable(R.drawable.start_orange))
+                    3 -> textView.setBackgroundDrawable(context.getDrawable(R.drawable.start_red))
+                    4 -> textView.setBackgroundDrawable(context.getDrawable(R.drawable.between_green_orange))
+                    5 -> textView.setBackgroundDrawable(context.getDrawable(R.drawable.between_orange_green))
+                    6 -> textView.setBackgroundDrawable(context.getDrawable(R.drawable.between_red_green))
+                    7 -> textView.setBackgroundDrawable(context.getDrawable(R.drawable.between_green_red))
+                    8 -> textView.setBackgroundDrawable(context.getDrawable(R.drawable.between_orange_red))
+                    9 -> textView.setBackgroundDrawable(context.getDrawable(R.drawable.between_red_orange))
+                }
             }
             2 -> {
-
+                when (color ){
+                    1 ->textView.setBackgroundDrawable(context.getDrawable(R.drawable.normal_green))
+                    2 ->textView.setBackgroundDrawable(context.getDrawable(R.drawable.normal_orange))
+                    3 ->textView.setBackgroundDrawable(context.getDrawable(R.drawable.normal_red))
+                }
             }
             3 -> {
-
+                when (color ){
+                    1 ->textView.setBackgroundDrawable(context.getDrawable(R.drawable.end_green))
+                    2 ->textView.setBackgroundDrawable(context.getDrawable(R.drawable.end_orange))
+                    3 ->textView.setBackgroundDrawable(context.getDrawable(R.drawable.end_red))
+                }
             }
         }
     }

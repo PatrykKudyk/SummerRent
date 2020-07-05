@@ -3,9 +3,11 @@ package com.partos.summerrent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.partos.summerrent.db.DataBaseHelper
 import com.partos.summerrent.fragments.CurrentFragment
 import com.partos.summerrent.fragments.MainMenuFragment
 import com.partos.summerrent.fragments.PastFragment
+import com.partos.summerrent.models.Day
 
 class MainActivity : AppCompatActivity(),
     MainMenuFragment.OnFragmentInteractionListener,
@@ -17,7 +19,6 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         mainMenuFragment = MainMenuFragment.newInstance()
 
