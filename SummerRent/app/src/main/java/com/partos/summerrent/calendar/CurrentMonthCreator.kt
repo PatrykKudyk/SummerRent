@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_current.*
 class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
 
     private lateinit var cellsList: Array<Array<TextView>>
+    private val activity = (context as MainActivity)
 
     fun createJanuary(holder: CurrentRentsViewHolder, dayList: ArrayList<Day>) {
         initCells(holder)
@@ -464,109 +465,44 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
             for (j in 0..6) {
                 if (i == 0) {
                     if (j > 1) {
-//                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
-                        cellsList[i][j].setText(
-                            db.getSmall(
-                                dayList[((7 * i) + j) - 2].date.day,
-                                dayList[((7 * i) + j) - 2].date.month,
-                                dayList[((7 * i) + j) - 2].date.year
-                            ).date.day.toString()
-                        )
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
                         setCellBackground(
                             cellsList[i][j],
-                            db.getSmall(
-                                dayList[((7 * i) + j) - 2].date.day,
-                                dayList[((7 * i) + j) - 2].date.month,
-                                dayList[((7 * i) + j) - 2].date.year
-                            ).color,
-                            db.getSmall(
-                                dayList[((7 * i) + j) - 2].date.day,
-                                dayList[((7 * i) + j) - 2].date.month,
-                                dayList[((7 * i) + j) - 2].date.year
-                            ).status
+                            dayList[((7 * i) + j) - 2].color,
+                            dayList[((7 * i) + j) - 2].status
                         )
-                        cellsList[i][j].setOnClickListener {
-                            if (MyApp.isEditing) {
-                                if (MyApp.focused == dayList[((7 * i) + j) - 2].date) {
-                                    if (MyApp.color == 0) {
-                                        dayList[((7 * i) + j) - 2].status = 0
-                                        dayList[((7 * i) + j) - 2].color = 0
-                                    } else if (MyApp.color != -1) {
-                                        when (dayList[((7 * i) + j) - 2].status) {
-                                            0 -> dayList[((7 * i) + j) - 2].status = 1
-                                            1 -> dayList[((7 * i) + j) - 2].status = 2
-                                            2 -> dayList[((7 * i) + j) - 2].status = 3
-                                            3 -> dayList[((7 * i) + j) - 2].status = 0
-                                        }
-                                        dayList[(7 * i) + j].color = MyApp.color
-                                        if (isBig) {
-                                            db.updateBig(dayList[((7 * i) + j) - 2])
-                                        } else {
-                                            db.updateSmall(dayList[((7 * i) + j) - 2])
-                                        }
-                                        setCellBackground(
-                                            cellsList[i][j], db.getSmall(
-                                                dayList[((7 * i) + j) - 2].date.day,
-                                                dayList[((7 * i) + j) - 2].date.month,
-                                                dayList[((7 * i) + j) - 2].date.year
-                                            ).color, db.getSmall(
-                                                dayList[((7 * i) + j) - 2].date.day,
-                                                dayList[((7 * i) + j) - 2].date.month,
-                                                dayList[((7 * i) + j) - 2].date.year
-                                            ).status
-                                        )
-                                    }
-                                } else {
-                                    MyApp.focused = dayList[((7 * i) + j) - 2].date
-                                    val activity = (context as MainActivity)
-                                    activity.current_card_view.visibility = View.GONE
-                                }
-                            }
-                        }
                         cellsList[i][j].setOnLongClickListener {
-                            val activity = (context as MainActivity)
                             activity.current_card_view.visibility = View.VISIBLE
-
-
-                            MyApp.noteFocused = dayList[((7 * i) + j) - 2].date
-                            activity.current_text_note.setText(
-                                db.getSmall(
+                            if (isBig) {
+                                activity.current_text_note.setText(
+                                    db.getBig(
+                                        dayList[((7 * i) + j) - 2].date.day,
+                                        dayList[((7 * i) + j) - 2].date.month,
+                                        dayList[((7 * i) + j) - 2].date.year
+                                    ).note
+                                )
+                            } else {
+                                activity.current_text_note.setText(
+                                    db.getSmall(
+                                        dayList[((7 * i) + j) - 2].date.day,
+                                        dayList[((7 * i) + j) - 2].date.month,
+                                        dayList[((7 * i) + j) - 2].date.year
+                                    ).note
+                                )
+                            }
+                            activity.current_note_save.setOnClickListener {
+                                var day = db.getSmall(
                                     dayList[((7 * i) + j) - 2].date.day,
                                     dayList[((7 * i) + j) - 2].date.month,
                                     dayList[((7 * i) + j) - 2].date.year
-                                ).note
-                            )
-                            activity.current_text_note.addTextChangedListener(object :
-                                TextWatcher {
-                                override fun afterTextChanged(p0: Editable?) {
-                                    dayList[((7 * i) + j) - 2].note =
-                                        activity.current_text_note.text.toString()
-                                    if (isBig) {
-                                        db.updateBig(dayList[((7 * i) + j) - 2])
-                                    } else {
-                                        db.updateSmall(dayList[((7 * i) + j) - 2])
-                                    }
+                                )
+                                day.note = activity.current_text_note.text.toString()
+                                if (isBig){
+                                    db.updateBig(day)
+                                } else {
+                                    db.updateSmall(day)
                                 }
-
-                                override fun beforeTextChanged(
-                                    p0: CharSequence?, p1: Int, p2: Int, p3: Int
-                                ) {
-                                    Log.println(Log.DEBUG, "before", "before")
-                                }
-
-                                override fun onTextChanged(
-                                    p0: CharSequence?, p1: Int, p2: Int, p3: Int
-                                ) {
-                                    dayList[((7 * i) + j) - 2].note =
-                                        activity.current_text_note.text.toString()
-                                    if (isBig) {
-                                        db.updateBig(dayList[((7 * i) + j) - 2])
-                                    } else {
-                                        db.updateSmall(dayList[((7 * i) + j) - 2])
-                                    }
-                                }
-                            })
-
+                            }
                             true
                         }
                     }

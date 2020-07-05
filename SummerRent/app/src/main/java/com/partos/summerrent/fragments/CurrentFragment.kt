@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.viewpager.widget.ViewPager
 import com.partos.summerrent.MyApp
@@ -15,6 +17,7 @@ import com.partos.summerrent.R
 import com.partos.summerrent.db.DataBaseHelper
 import com.partos.summerrent.pager.CurrentRentsViewPagedAdapter
 import com.partos.summerrent.pager.PastRentsViewPagerAdapter
+import kotlinx.android.synthetic.main.fragment_current.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -52,6 +55,8 @@ class CurrentFragment : Fragment() {
     private lateinit var orangeRedButton: Button
     private lateinit var redOrangeButton: Button
     private lateinit var blackButton: Button
+    private lateinit var saveImage: ImageView
+    private lateinit var closeImage: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,6 +153,13 @@ class CurrentFragment : Fragment() {
         redOrangeButton.setOnClickListener {
             MyApp.color = 9
         }
+        saveImage.setOnClickListener {
+            hideKeyboard()
+        }
+        closeImage.setOnClickListener {
+            current_card_view.visibility = View.GONE
+            hideKeyboard()
+        }
     }
 
     private fun assignViews() {
@@ -166,5 +178,16 @@ class CurrentFragment : Fragment() {
         orangeRedButton = rootView.findViewById(R.id.current_colors_orange_red)
         redOrangeButton = rootView.findViewById(R.id.current_colors_red_orange)
         blackButton = rootView.findViewById(R.id.current_colors_black)
+        saveImage = rootView.findViewById(R.id.current_note_save)
+        closeImage = rootView.findViewById(R.id.current_note_close)
+    }
+
+    private fun hideKeyboard() {
+        val view = activity?.currentFocus
+        if (view != null) {
+            val inputManager =
+                rootView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 }
