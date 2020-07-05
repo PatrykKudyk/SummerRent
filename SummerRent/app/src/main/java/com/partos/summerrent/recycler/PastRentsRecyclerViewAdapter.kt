@@ -20,7 +20,7 @@ class PastRentsRecyclerViewAdapter(val isBig: Boolean, var monthsList: ArrayList
     }
 
     override fun onBindViewHolder(holder: PastRentsViewHolder, position: Int) {
-
+        
     }
 }
 

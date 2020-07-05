@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.partos.summerrent.R
+import com.partos.summerrent.calendar.CalendarHelper
 import com.partos.summerrent.db.DataBaseHelper
 import com.partos.summerrent.recycler.MarginItemDecoration
+import com.partos.summerrent.recycler.PastRentsRecyclerViewAdapter
 import com.partos.summerrent.recycler.RentsRecyclerViewAdapter
 import kotlinx.android.synthetic.main.view_pager_cell.view.*
 
@@ -48,12 +50,14 @@ class PastRentsViewPagerAdapter : PagerAdapter {
             )
         )
 
-        val db = DataBaseHelper(view.context)
+        val calendarHelper = CalendarHelper(context)
 
         if (position == 0) {
-
-        } else if (position == 1){
-
+            recyclerView.adapter =
+                PastRentsRecyclerViewAdapter(false, calendarHelper.getSmallMonthsList(true))
+        } else if (position == 1) {
+            recyclerView.adapter =
+                PastRentsRecyclerViewAdapter(true, calendarHelper.getBigMonthsList(true))
         }
 
         container!!.addView(view)
