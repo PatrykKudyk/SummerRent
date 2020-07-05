@@ -25,7 +25,7 @@ class PastRentsRecyclerViewAdapter(val isBig: Boolean, var monthsList: ArrayList
     }
 
     private fun createMonthCell(month: Int, holder: PastRentsViewHolder, position: Int) {
-        val monthCreator = PastMonthCreator(isBig)
+        val monthCreator = PastMonthCreator(isBig, holder.view.context)
         when (month) {
             1 -> monthCreator.createJanuary(holder, monthsList[position])
             2 -> monthCreator.createFebruary(holder, monthsList[position])
