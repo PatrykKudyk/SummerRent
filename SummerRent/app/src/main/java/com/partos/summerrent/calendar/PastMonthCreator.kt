@@ -46,6 +46,27 @@ class PastMonthCreator(val isBig: Boolean) {
                 holder.view.context.getString(R.string.february) + "\t\t" + dayList[0].date.year + "   40/5"
             )
         }
+        if (dayList.size == 28) {
+            when (dayList[0].date.dayOfWeek) {
+                1 -> init28monday(holder, dayList)
+                2 -> init28tuesday(holder, dayList)
+                3 -> init28wednesday(holder, dayList)
+                4 -> init28thursday(holder, dayList)
+                5 -> init28friday(holder, dayList)
+                6 -> init28saturday(holder, dayList)
+                7 -> init28sunday(holder, dayList)
+            }
+        } else {
+            when (dayList[0].date.dayOfWeek) {
+                1 -> init29monday(holder, dayList)
+                2 -> init29tuesday(holder, dayList)
+                3 -> init29wednesday(holder, dayList)
+                4 -> init29thursday(holder, dayList)
+                5 -> init29friday(holder, dayList)
+                6 -> init29saturday(holder, dayList)
+                7 -> init29sunday(holder, dayList)
+            }
+        }
     }
 
     fun createMarch(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
@@ -350,9 +371,7 @@ class PastMonthCreator(val isBig: Boolean) {
             for (j in 0..6) {
                 if (i <= 3) {
                     cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-                    cellsList[i][j].setOnClickListener {
 
-                    }
                 } else {
                     if (j <= 2) {
                         cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
@@ -479,9 +498,7 @@ class PastMonthCreator(val isBig: Boolean) {
             for (j in 0..6) {
                 if (i <= 3) {
                     cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
-                    cellsList[i][j].setOnClickListener {
 
-                    }
                 } else {
                     if (j <= 1) {
                         cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
@@ -597,6 +614,261 @@ class PastMonthCreator(val isBig: Boolean) {
                     if (j == 0) {
                         cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
                     }
+                }
+            }
+        }
+    }
+
+
+    private fun init28monday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..3) {
+            for (j in 0..6) {
+                if (i <= 4) {
+                    cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
+
+                }
+            }
+        }
+    }
+
+    private fun init28tuesday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 0) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                } else {
+                    if (j == 0) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init28wednesday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 1) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    val text = dayList[((7 * i) + j) - 2].date.day.toString()
+                    cellsList[i][j].setText(text)
+                } else {
+                    if (j <= 1) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init28thursday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 2) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                } else {
+                    if (j <= 2) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init28friday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 3) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                } else {
+                    if (j <= 3) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init28saturday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 4) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                } else {
+                    if (j <= 4) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init28sunday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 5) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                } else {
+                    if (j <= 5) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init29monday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i <= 4) {
+                    cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
+
+                } else {
+                    if (j == 0) {
+                        cellsList[i][j].setText(dayList[(7 * i) + j].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init29tuesday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 0) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                } else {
+                    if (j <= 1) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 1].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init29wednesday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 1) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    val text = dayList[((7 * i) + j) - 2].date.day.toString()
+                    cellsList[i][j].setText(text)
+                } else {
+                    if (j <= 2) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 2].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init29thursday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 2) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                } else {
+                    if (j <= 3) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 3].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init29friday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 3) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                } else {
+                    if (j <= 4) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 4].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init29saturday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 4) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                    }
+                } else if (i <= 3) {
+                    cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                } else {
+                    if (j <= 5) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 5].date.day.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun init29sunday(holder: PastRentsViewHolder, dayList: ArrayList<Day>) {
+        val db = DataBaseHelper(holder.view.context)
+        for (i in 0..4) {
+            for (j in 0..6) {
+                if (i == 0) {
+                    if (j > 5) {
+                        cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
+                    }
+                } else if (i <= 4) {
+                    cellsList[i][j].setText(dayList[((7 * i) + j) - 6].date.day.toString())
                 }
             }
         }
