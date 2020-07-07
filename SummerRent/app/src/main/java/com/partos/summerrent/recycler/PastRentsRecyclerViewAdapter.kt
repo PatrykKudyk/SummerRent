@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.partos.summerrent.R
 import com.partos.summerrent.calendar.PastMonthCreator
 import com.partos.summerrent.models.Day
+import kotlinx.android.synthetic.main.cell_month.view.*
 
 class PastRentsRecyclerViewAdapter(val isBig: Boolean, var monthsList: ArrayList<ArrayList<Day>>) :
     RecyclerView.Adapter<PastRentsViewHolder>() {
@@ -25,6 +26,13 @@ class PastRentsRecyclerViewAdapter(val isBig: Boolean, var monthsList: ArrayList
     }
 
     private fun createMonthCell(month: Int, holder: PastRentsViewHolder, position: Int) {
+        if (isBig) {
+            holder.view.cell_month_text_name.background = holder.view.context.getDrawable(R.drawable.normal_blue)
+            holder.view.cell_month_text_name.setTextColor(holder.view.context.getColor(R.color.colorBackground))
+        } else {
+            holder.view.cell_month_text_name.background = holder.view.context.getDrawable(R.drawable.normal_purple)
+            holder.view.cell_month_text_name.setTextColor(holder.view.context.getColor(R.color.colorBackground))
+        }
         val monthCreator = PastMonthCreator(isBig, holder.view.context)
         when (month) {
             1 -> monthCreator.createJanuary(holder, monthsList[position])

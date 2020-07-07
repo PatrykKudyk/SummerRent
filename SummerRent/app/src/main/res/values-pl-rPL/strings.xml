@@ -26,4 +26,5 @@
     <string name="current_rents">Aktualne</string>
     <string name="edit">Edytuj</string>
     <string name="save">Zapisz</string>
+    <string name="toast_successfully_saved">Notatka zapisana!</string>
 </resources>

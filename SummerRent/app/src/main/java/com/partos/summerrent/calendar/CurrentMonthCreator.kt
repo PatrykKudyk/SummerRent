@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import com.partos.summerrent.MainActivity
 import com.partos.summerrent.MyApp
 import com.partos.summerrent.R
@@ -917,17 +918,31 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
                 )
             }
             activity.current_note_save.setOnClickListener {
-                var day = db.getSmall(
-                    dayList[((7 * i) + j) - move].date.day,
-                    dayList[((7 * i) + j) - move].date.month,
-                    dayList[((7 * i) + j) - move].date.year
-                )
+                var day: Day
+                if (isBig) {
+                    day = db.getBig(
+                        dayList[((7 * i) + j) - move].date.day,
+                        dayList[((7 * i) + j) - move].date.month,
+                        dayList[((7 * i) + j) - move].date.year
+                    )
+                } else {
+                    day = db.getSmall(
+                        dayList[((7 * i) + j) - move].date.day,
+                        dayList[((7 * i) + j) - move].date.month,
+                        dayList[((7 * i) + j) - move].date.year
+                    )
+                }
                 day.note = activity.current_text_note.text.toString()
-                if (isBig){
+                if (isBig) {
                     db.updateBig(day)
                 } else {
                     db.updateSmall(day)
                 }
+                Toast.makeText(
+                    context,
+                    context.getText(R.string.toast_successfully_saved),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             true
         }
@@ -936,12 +951,21 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
                 if (MyApp.focused != dayList[((7 * i) + j) - move].date) {
                     MyApp.focused = dayList[((7 * i) + j) - move].date
                 } else {
-                    if (MyApp.color != -1){
-                        var day = db.getSmall(
+                    var day: Day
+                    if (isBig) {
+                        day = db.getBig(
                             dayList[((7 * i) + j) - move].date.day,
                             dayList[((7 * i) + j) - move].date.month,
                             dayList[((7 * i) + j) - move].date.year
                         )
+                    } else {
+                        day = db.getSmall(
+                            dayList[((7 * i) + j) - move].date.day,
+                            dayList[((7 * i) + j) - move].date.month,
+                            dayList[((7 * i) + j) - move].date.year
+                        )
+                    }
+                    if (MyApp.color != -1) {
                         day.color = MyApp.color
                         if (MyApp.color == 0) {
                             day.status = 0
@@ -957,7 +981,7 @@ class CurrentMonthCreator(val isBig: Boolean, val context: Context) {
                             day.status = 1
                         }
                         setCellBackground(cellsList[i][j], day.color, day.status)
-                        if (isBig){
+                        if (isBig) {
                             db.updateBig(day)
                         } else {
                             db.updateSmall(day)

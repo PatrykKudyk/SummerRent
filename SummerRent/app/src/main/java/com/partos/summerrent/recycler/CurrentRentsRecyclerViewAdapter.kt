@@ -8,6 +8,7 @@ import com.partos.summerrent.R
 import com.partos.summerrent.calendar.CurrentMonthCreator
 import com.partos.summerrent.calendar.PastMonthCreator
 import com.partos.summerrent.models.Day
+import kotlinx.android.synthetic.main.cell_month.view.*
 
 class CurrentRentsRecyclerViewAdapter(val isBig: Boolean, var monthsList: ArrayList<ArrayList<Day>>) :
     RecyclerView.Adapter<CurrentRentsViewHolder>() {
@@ -26,6 +27,13 @@ class CurrentRentsRecyclerViewAdapter(val isBig: Boolean, var monthsList: ArrayL
     }
 
     private fun createMonthCell(month: Int, holder: CurrentRentsViewHolder, position: Int) {
+        if (isBig) {
+            holder.view.cell_month_text_name.background = holder.view.context.getDrawable(R.drawable.normal_blue)
+            holder.view.cell_month_text_name.setTextColor(holder.view.context.getColor(R.color.colorBackground))
+        } else {
+            holder.view.cell_month_text_name.background = holder.view.context.getDrawable(R.drawable.normal_purple)
+            holder.view.cell_month_text_name.setTextColor(holder.view.context.getColor(R.color.colorBackground))
+        }
         val monthCreator = CurrentMonthCreator(isBig, holder.view.context)
         when (month) {
             1 -> monthCreator.createJanuary(holder, monthsList[position])
