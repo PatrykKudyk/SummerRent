@@ -409,7 +409,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textSize="45dip"
+                        android:textSize="32dip"
                         tools:text="SiemankoSiemankoSiemankoSiemanko Siemanko Siemanko SiemankoSiemankoSiemankoSiemanko" />
 
                 </ScrollView>
